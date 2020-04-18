@@ -1,5 +1,5 @@
 # leard-manager-react-django
 Django/React/Reduxアプリ
 
-参考：git@github.com:monda00/leard-manager-react-django.git
+参考：https://github.com/bradtraversy/lead_manager_react_django/tree/master/leadmanager
 
