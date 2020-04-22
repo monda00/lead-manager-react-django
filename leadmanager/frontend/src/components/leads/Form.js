@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addLead } from '../../actions/leads';
 
 export class Form extends Component {
   state = {
@@ -7,11 +10,17 @@ export class Form extends Component {
     message: '',
   };
 
+  static propTypes = {
+    addLead: PropTypes.func.isRequired
+  }
+
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   onSubmit = e => {
     e.preventDefault();
-    console.log("submit");
+    const { name, email, message } = this.state;
+    const lead = { name, email, message };
+    this.props.addLead(lead);
   };
 
   render() {
@@ -25,7 +34,7 @@ export class Form extends Component {
             <input
               className="form-control"
               type="text"
-              nanme="name"
+              name="name"
               onChange={this.onChange}
               value={name}
             />
@@ -35,7 +44,7 @@ export class Form extends Component {
             <input
               className="form-control"
               type="email"
-              nanme="email"
+              name="email"
               onChange={this.onChange}
               value={email}
             />
@@ -45,7 +54,7 @@ export class Form extends Component {
             <textarea
               className="form-control"
               type="text"
-              nanme="message"
+              name="message"
               onChange={this.onChange}
               value={message}
             />
@@ -61,4 +70,4 @@ export class Form extends Component {
   };
 }
 
-export default Form
+export default connect(null, { addLead })(Form);
