@@ -35,6 +35,7 @@
     ],
     "import/no-named-as-default": 0,
     "react/prefer-stateless-function": 0,
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "react/destructuring-assignment": "off"
   }
 }
