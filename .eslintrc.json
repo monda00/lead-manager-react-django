@@ -36,6 +36,8 @@
     "import/no-named-as-default": 0,
     "react/prefer-stateless-function": 0,
     "react/jsx-props-no-spreading": "off",
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "react/static-property-placement": "off",
+    "react/forbid-prop-types": "off"
   }
 }
