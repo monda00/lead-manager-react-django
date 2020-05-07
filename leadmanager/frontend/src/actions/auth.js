@@ -9,7 +9,7 @@ export const loadUser = () => (dispath, getState) => {
   dispath({ type: USER_LOADING });
 
   // Get token from state
-  const { token } = getState().auth.token;
+  const { token } = getState().auth;
 
   // Headers
   const config = {
