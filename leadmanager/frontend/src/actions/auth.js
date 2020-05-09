@@ -1,7 +1,14 @@
 import axios from 'axios';
 import { returnErrors } from './messages';
 
-import { USER_LOADING, USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL } from './types';
+import {
+  USER_LOADING,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT_SUCCESS,
+} from './types';
 
 // CHECK TOKEN & LOAD USER
 export const loadUser = () => (dispath, getState) => {
@@ -64,5 +71,37 @@ export const login = (username, password) => (dispath) => {
       dispath({
         type: LOGIN_FAIL,
       });
+    });
+};
+
+// LOGOUT USER
+export const logout = () => (dispath, getState) => {
+  // User Loading
+  dispath({ type: USER_LOADING });
+
+  // Get token from state
+  const { token } = getState().auth;
+
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  // If token, add to headers config
+  if (token) {
+    config.headers.Authorization = `Token ${token}`;
+  }
+
+  axios
+    .post('/api/auth/logout', null, config)
+    .then((res) => {
+      dispath({
+        type: LOGOUT_SUCCESS,
+      });
+    })
+    .catch((err) => {
+      dispath(returnErrors(err.response.data, err.response.status));
     });
 };
