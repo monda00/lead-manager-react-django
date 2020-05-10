@@ -15,23 +15,8 @@ export const loadUser = () => (dispath, getState) => {
   // User Loading
   dispath({ type: USER_LOADING });
 
-  // Get token from state
-  const { token } = getState().auth;
-
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  // If token, add to headers config
-  if (token) {
-    config.headers.Authorization = `Token ${token}`;
-  }
-
   axios
-    .get('/api/auth/user', config)
+    .get('/api/auth/user', tokenConfig(getState))
     .then((res) => {
       dispath({
         type: USER_LOADED,
@@ -76,9 +61,20 @@ export const login = (username, password) => (dispath) => {
 
 // LOGOUT USER
 export const logout = () => (dispath, getState) => {
-  // User Loading
-  dispath({ type: USER_LOADING });
+  axios
+    .post('/api/auth/logout', null, tokenConfig(getState))
+    .then((res) => {
+      dispath({
+        type: LOGOUT_SUCCESS,
+      });
+    })
+    .catch((err) => {
+      dispath(returnErrors(err.response.data, err.response.status));
+    });
+};
 
+// Setup config with token - helper function
+export const tokenConfig = (getState) => {
   // Get token from state
   const { token } = getState().auth;
 
@@ -94,14 +90,5 @@ export const logout = () => (dispath, getState) => {
     config.headers.Authorization = `Token ${token}`;
   }
 
-  axios
-    .post('/api/auth/logout', null, config)
-    .then((res) => {
-      dispath({
-        type: LOGOUT_SUCCESS,
-      });
-    })
-    .catch((err) => {
-      dispath(returnErrors(err.response.data, err.response.status));
-    });
+  return config;
 };
