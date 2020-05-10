@@ -10,7 +10,7 @@ class LeadViewSet(viewsets.ModelViewSet):
 
     serializer_class = LeadSerializer
 
-    def get_querset(self):
+    def get_queryset(self):
         return self.request.user.leads.all()
 
     def perform_create(self, serializer):
